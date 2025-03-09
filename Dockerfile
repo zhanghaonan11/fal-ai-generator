@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libffi-dev \
     libjpeg-dev \
     zlib1g-dev \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 # 升级pip和安装基础工具
@@ -19,7 +20,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -v requests==2.31.0
 RUN pip install --no-cache-dir -v pillow==9.5.0
 RUN pip install --no-cache-dir -v gradio==3.41.0
-RUN pip install --no-cache-dir -v fal-client==0.1.13
+
+# 使用更稳定的旧版本fal-client
+RUN pip install --no-cache-dir -v fal-client==0.0.21
 
 # 复制应用文件
 COPY fal_ai_image_generator.py .

@@ -37,12 +37,7 @@ def generate_image(prompt, model_id, aspect_ratio, num_images, num_steps, guidan
     image_size = ASPECT_RATIOS[aspect_ratio]
     
     try:
-        # 使用官方客户端库调用API
-        def on_queue_update(update):
-            if isinstance(update, fal_client.InProgress):
-                for log in update.logs:
-                    print(log["message"])
-        
+        # 使用官方客户端库调用API - 兼容0.0.21版本
         # 构建请求参数
         arguments = {
             "prompt": prompt,
@@ -60,12 +55,13 @@ def generate_image(prompt, model_id, aspect_ratio, num_images, num_steps, guidan
         if safety_checker is not None:
             arguments["enable_safety_checker"] = safety_checker
         
-        # 执行API调用
-        result = fal_client.subscribe(
+        # 执行API调用 - 使用0.0.21版本的调用方式
+        print(f"使用模型: {model_id}")
+        print(f"参数: {arguments}")
+        
+        result = fal_client.run(
             model_id,
-            arguments=arguments,
-            with_logs=True,
-            on_queue_update=on_queue_update
+            arguments=arguments
         )
         
         # 处理返回结果
