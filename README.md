@@ -17,12 +17,12 @@
 
 1. 拉取Docker镜像
 ```bash
-docker pull 你的用户名/fal-ai-generator:latest
+docker pull zhanghaonan11/fal-ai-generator:latest
 ```
 
 2. 运行容器
 ```bash
-docker run -d -p 7860:7860 -v /path/to/save/images:/app/generated_images 你的用户名/fal-ai-generator:latest
+docker run -d -p 7860:7860 -v /path/to/save/images:/app/generated_images zhanghaonan11/fal-ai-generator:latest
 ```
 
 ### 在1Panel中部署
@@ -32,7 +32,7 @@ docker run -d -p 7860:7860 -v /path/to/save/images:/app/generated_images 你的�
 3. 点击"添加容器"
 4. 填写以下信息：
    - 容器名称：`fal-ai-generator`
-   - 镜像名称：`你的用户名/fal-ai-generator:latest`
+   - 镜像名称：`zhanghaonan11/fal-ai-generator:latest`
    - 端口映射：本地端口`7860`映射到容器端口`7860`
    - 目录映射：映射一个本地目录到容器的`/app/generated_images`目录
 5. 点击"创建"启动容器
@@ -51,7 +51,7 @@ docker run -d -p 7860:7860 -v /path/to/save/images:/app/generated_images 你的�
 
 1. 克隆仓库：
 ```bash
-git clone https://github.com/你的用户名/fal-ai-generator.git
+git clone https://github.com/zhanghaonan11/fal-ai-generator.git
 cd fal-ai-generator
 ```
 
