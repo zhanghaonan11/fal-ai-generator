@@ -37,6 +37,6 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/fal-ai-generator:latest
-          platforms: linux/amd64  # 暂时只构建amd64版本
+          platforms: linux/amd64  # 只构建amd64版本以提高构建速度
           cache-from: type=gha
           cache-to: type=gha,mode=max 

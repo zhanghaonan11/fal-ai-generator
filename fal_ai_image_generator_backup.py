@@ -80,6 +80,7 @@ def generate_image(prompt, model_id, aspect_ratio, num_images, num_steps, guidan
             for i, img_data in enumerate(result["images"]):
                 if "url" in img_data:
                     # 加载图片URL
+                    import requests
                     img_response = requests.get(img_data["url"])
                     img = Image.open(io.BytesIO(img_response.content))
                     
@@ -192,5 +193,15 @@ with gr.Blocks(title="FAL.AI 文生图工具") as demo:
 
 # 启动应用
 if __name__ == "__main__":
-    # 在Docker环境中不需要自动安装依赖，因为Dockerfile会处理
-    demo.launch(server_name="0.0.0.0", share=False) 
+    # 安装必要的依赖
+    import sys
+    import subprocess
+    required_packages = ["fal-client", "pillow", "gradio"]
+    for package in required_packages:
+        try:
+            __import__(package)
+        except ImportError:
+            print(f"安装依赖包: {package}")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+    
+    demo.launch() 
