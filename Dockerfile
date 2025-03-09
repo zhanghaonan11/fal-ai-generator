@@ -11,12 +11,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # 升级pip
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
-# 分步安装依赖，增加稳定性
+# 分步安装依赖，指定确切版本
 COPY requirements.txt .
-RUN pip install --no-cache-dir -v requests
-RUN pip install --no-cache-dir -v pillow
-RUN pip install --no-cache-dir -v fal-client
-RUN pip install --no-cache-dir -v gradio
+RUN pip install --no-cache-dir -v requests==2.28.2
+RUN pip install --no-cache-dir -v pillow==9.4.0
+RUN pip install --no-cache-dir -v fal-client==0.0.23
+RUN pip install --no-cache-dir -v gradio==3.41.0
 
 # 复制应用文件
 COPY fal_ai_image_generator.py .

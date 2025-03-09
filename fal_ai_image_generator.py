@@ -36,7 +36,6 @@ def generate_image(prompt, model_id, aspect_ratio, num_images, num_steps, guidan
     os.environ["FAL_KEY"] = api_key
     
     try:
-        client = FalClient()
         images = []
         image_paths = []  # 存储图片保存路径
         
@@ -63,24 +62,11 @@ def generate_image(prompt, model_id, aspect_ratio, num_images, num_steps, guidan
         print(f"发送请求到 {model_url}")
         print(f"请求参数: {request_params}")
         
-        # 用于存储最终结果
-        result = None
-        
-        # 定义队列更新回调函数
-        def on_queue_update(update):
-            nonlocal result
-            print(f"队列更新: {update}")
-            status = update.get("status")
-            if status == "COMPLETED":
-                result = update.get("result", {})
-                print(f"生成完成，获取结果")
-        
-        # 发送请求
-        client.submit_request(
-            model_url, 
-            request_params, 
-            on_queue_update=on_queue_update,
-            timeout=300  # 5分钟超时
+        # 使用fal_client的函数式API调用
+        result = fal_client.subscribe(
+            model_url,
+            request_params,
+            on_completed=lambda resp: print(f"请求完成: {resp}")
         )
         
         # 处理返回结果
