@@ -73,10 +73,9 @@ def generate_image(prompt, model_id, aspect_ratio, num_images, num_steps, guidan
         image_paths = []  # 存储图片保存路径
         
         if "images" in result:
-            # 创建保存图片的目录，使用环境变量或默认路径
-            save_dir = os.environ.get("SAVE_DIR", "generated_images")
+            # 创建保存图片的目录
+            save_dir = "generated_images"
             os.makedirs(save_dir, exist_ok=True)
-            print(f"图像将保存到: {os.path.abspath(save_dir)}")
             
             for i, img_data in enumerate(result["images"]):
                 if "url" in img_data:
@@ -194,13 +193,15 @@ with gr.Blocks(title="FAL.AI 文生图工具") as demo:
 
 # 启动应用
 if __name__ == "__main__":
-    import os
+    # 安装必要的依赖
+    import sys
+    import subprocess
+    required_packages = ["fal-client", "pillow", "gradio"]
+    for package in required_packages:
+        try:
+            __import__(package)
+        except ImportError:
+            print(f"安装依赖包: {package}")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
     
-    # 获取环境变量中的配置，如果没有则使用默认值
-    server_port = int(os.environ.get("PORT", 7860))
-    server_host = os.environ.get("HOST", "0.0.0.0")
-    
-    # 使用服务器配置启动应用
-    # 在Docker中需要使用0.0.0.0作为host才能从容器外访问
-    print(f"启动服务器在 {server_host}:{server_port}")
-    demo.launch(server_name=server_host, server_port=server_port)
+    demo.launch()
